@@ -10,11 +10,11 @@ export function WalletPage() {
   const percentage = (totalCredits / maxCredits) * 100;
 
   const [profileData, setProfileData] = useState({
-    name: 'Alex Morgan',
-    email: 'alex.morgan@educred.com',
-    studentId: 'EDU-2024-5678',
-    location: 'San Francisco, CA',
-    joinDate: 'January 15, 2024'
+    name: 'Soumya unhale',
+    email: '0105cs231233@oriental.ac.in',
+    studentId: '0105CS231233',
+    location: 'Bhopal',
+    joinDate: '11/09/2023'
   });
 
   const blockchainInfo = [

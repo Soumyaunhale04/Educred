@@ -5,7 +5,7 @@ interface StudentDashboardProps {
   studentName?: string;
 }
 
-export function StudentDashboard({ studentName = 'Alex Morgan' }: StudentDashboardProps) {
+export function StudentDashboard({ studentName = 'Soumya' }: StudentDashboardProps) {
   const stats = [
     {
       title: 'Ongoing Courses',
@@ -38,16 +38,16 @@ export function StudentDashboard({ studentName = 'Alex Morgan' }: StudentDashboa
   ];
 
   const recentCourses = [
-    { name: 'Blockchain Fundamentals', progress: 75, instructor: 'Dr. Sarah Chen', color: '#2F80ED' },
-    { name: 'Smart Contracts Development', progress: 60, instructor: 'Prof. James Wilson', color: '#27AE60' },
-    { name: 'Cryptography Basics', progress: 90, instructor: 'Dr. Maria Garcia', color: '#9B51E0' },
-    { name: 'DeFi Applications', progress: 45, instructor: 'Prof. Michael Brown', color: '#F2994A' }
+    { name: 'Blockchain Fundamentals', progress: 75, instructor: 'Prof. Anamika Joshi', color: '#2F80ED' },
+    { name: 'Java Programming', progress: 60, instructor: 'Prof. Tarannum Dar', color: '#27AE60' },
+    { name: 'Python Basics', progress: 90, instructor: 'Prof. Sushil kumar', color: '#9B51E0' },
+    { name: 'Data Structures', progress: 45, instructor: 'Prof. Preeti kushwah', color: '#F2994A' }
   ];
 
   const connectedFaculty = [
-    { name: 'Dr. Sarah Chen', role: 'Blockchain Expert', courses: 3 },
-    { name: 'Prof. James Wilson', role: 'Smart Contracts', courses: 2 },
-    { name: 'Dr. Maria Garcia', role: 'Cryptography', courses: 2 }
+    { name: 'Prof. Imran Ali Khan', role: 'AI/ML Professor', courses: 3 },
+    { name: 'Prof. Shivank soni', role: 'TOC Professor', courses: 2 },
+    { name: 'Prof. Sushil kumar', role: 'Python Expert', courses: 2 }
   ];
 
   return (

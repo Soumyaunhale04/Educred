@@ -33,7 +33,7 @@ export function Navigation({ currentPage, onNavigate, onLogout }: NavigationProp
           >
             <Award className="w-5 h-5 text-white" />
           </div>
-          <span>EduCred+</span>
+          <span>EduCred</span>
         </h1>
         <p className="text-[#6B7280] text-sm mt-1">Blockchain Education</p>
       </div>

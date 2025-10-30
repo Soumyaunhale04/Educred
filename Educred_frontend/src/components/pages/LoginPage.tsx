@@ -1,18 +1,51 @@
-import { useState } from 'react';
-import { GlowButton } from '../common/GlowButton';
-import { User, Shield } from 'lucide-react';
+import { useState } from "react";
+import { GlowButton } from "../common/GlowButton";
+import { User, Shield } from "lucide-react";
 
 interface LoginPageProps {
   onLogin: () => void;
+   onSwitchToSignup: () => void;
 }
 
-export function LoginPage({ onLogin }: LoginPageProps) {
-  const [role, setRole] = useState<'student' | 'admin'>('student');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+export function LoginPage({ onLogin, onSwitchToSignup }: LoginPageProps) {
+  const [role, setRole] = useState<"student" | "admin">("student");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // ✅ Function to connect MetaMask wallet
+  const connectWallet = async (): Promise<string | null> => {
+    if (typeof window.ethereum === "undefined") {
+      alert("🦊 MetaMask not found! Please install it first.");
+      return null;
+    }
+
+    try {
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      const walletAddress = accounts[0];
+      console.log("Connected wallet:", walletAddress);
+
+      localStorage.setItem("walletAddress", walletAddress);
+      alert(`Wallet connected: ${walletAddress}`);
+      return walletAddress;
+    } catch (error) {
+      console.error("MetaMask connection failed:", error);
+      alert("Failed to connect MetaMask. Please try again.");
+      return null;
+    }
+  };
+
+  // ✅ Handle login and wallet logic
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (role === "student") {
+      const wallet = await connectWallet();
+      if (!wallet) return; // Stop if wallet not connected
+    }
+
+    // Continue normal login flow
     onLogin();
   };
 
@@ -20,10 +53,10 @@ export function LoginPage({ onLogin }: LoginPageProps) {
     <div className="min-h-screen w-full bg-[#F9FAFB] relative overflow-hidden flex items-center justify-center">
       {/* Hero Gradient Background */}
       <div className="absolute inset-0 overflow-hidden">
-        <div 
+        <div
           className="absolute top-0 left-0 right-0 h-[60%] opacity-10"
           style={{
-            background: 'linear-gradient(135deg, #2F80ED 0%, #56CCF2 100%)'
+            background: "linear-gradient(135deg, #2F80ED 0%, #56CCF2 100%)",
           }}
         />
         <div className="absolute top-20 left-20 w-72 h-72 bg-[#2F80ED] opacity-5 rounded-full blur-3xl"></div>
@@ -35,44 +68,57 @@ export function LoginPage({ onLogin }: LoginPageProps) {
         <div className="bg-white border border-[#E5E7EB] rounded-2xl p-8 shadow-lg">
           {/* Logo and Title */}
           <div className="text-center mb-8">
-            <div 
+            <div
               className="inline-block p-4 rounded-2xl mb-4"
               style={{
-                background: 'linear-gradient(135deg, #2F80ED 0%, #56CCF2 100%)'
+                background:
+                  "linear-gradient(135deg, #2F80ED 0%, #56CCF2 100%)",
               }}
             >
               <Shield className="w-12 h-12 text-white" />
             </div>
-            <h1 className="text-[#1E1E1E] mb-2">Welcome to EduCred+</h1>
-            <p className="text-[#6B7280]">Blockchain-Based Education Platform</p>
+            <h1 className="text-[#1E1E1E] mb-2">Welcome to EduCred</h1>
+            <p className="text-[#6B7280]">
+              Blockchain-Based Education Platform
+            </p>
           </div>
 
           {/* Role Switcher */}
           <div className="flex gap-2 mb-6 bg-[#F3F4F6] p-1 rounded-lg">
             <button
-              onClick={() => setRole('student')}
+              onClick={() => setRole("student")}
               className={`flex-1 py-2 rounded-md transition-all duration-200 flex items-center justify-center gap-2 ${
-                role === 'student'
-                  ? 'text-white shadow-sm'
-                  : 'text-[#6B7280] hover:text-[#1E1E1E]'
+                role === "student"
+                  ? "text-white shadow-sm"
+                  : "text-[#6B7280] hover:text-[#1E1E1E]"
               }`}
-              style={role === 'student' ? {
-                background: 'linear-gradient(135deg, #2F80ED 0%, #56CCF2 100%)'
-              } : {}}
+              style={
+                role === "student"
+                  ? {
+                      background:
+                        "linear-gradient(135deg, #2F80ED 0%, #56CCF2 100%)",
+                    }
+                  : {}
+              }
             >
               <User className="w-4 h-4" />
               Student
             </button>
             <button
-              onClick={() => setRole('admin')}
+              onClick={() => setRole("admin")}
               className={`flex-1 py-2 rounded-md transition-all duration-200 flex items-center justify-center gap-2 ${
-                role === 'admin'
-                  ? 'text-white shadow-sm'
-                  : 'text-[#6B7280] hover:text-[#1E1E1E]'
+                role === "admin"
+                  ? "text-white shadow-sm"
+                  : "text-[#6B7280] hover:text-[#1E1E1E]"
               }`}
-              style={role === 'admin' ? {
-                background: 'linear-gradient(135deg, #2F80ED 0%, #56CCF2 100%)'
-              } : {}}
+              style={
+                role === "admin"
+                  ? {
+                      background:
+                        "linear-gradient(135deg, #2F80ED 0%, #56CCF2 100%)",
+                    }
+                  : {}
+              }
             >
               <Shield className="w-4 h-4" />
               Admin
@@ -116,16 +162,19 @@ export function LoginPage({ onLogin }: LoginPageProps) {
             </div>
 
             <GlowButton type="submit" className="w-full mt-6">
-              Login to {role === 'student' ? 'Student' : 'Admin'} Portal
+              Login to {role === "student" ? "Student" : "Admin"} Portal
             </GlowButton>
           </form>
 
           {/* Footer */}
           <div className="mt-6 text-center text-sm text-[#6B7280]">
-            Don't have an account?{' '}
-            <a href="#" className="text-[#2F80ED] hover:underline">
-              Sign Up
-            </a>
+          Don’t have an account?{' '}
+          <button
+          onClick={onSwitchToSignup}
+          className="text-[#2F80ED] hover:underline"
+            >
+          Sign Up
+          </button>
           </div>
         </div>
       </div>
